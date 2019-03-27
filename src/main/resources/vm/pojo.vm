@@ -1,0 +1,21 @@
+package ${basePackage}.bean;
+
+import lombok.Data;
+
+#foreach($imp in $imports)
+import ${imp};
+#end
+
+/**
+ * @Author: ${author}
+ */
+@Data
+public class ${className}
+{
+#foreach($field in $fields)
+    /**
+     * ${field.remark}
+     */
+    private ${field.javaType} ${field.name};
+#end
+}

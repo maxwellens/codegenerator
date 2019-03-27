@@ -1,0 +1,196 @@
+package com.nietzche.codegenerator.util;
+
+import com.google.common.base.Strings;
+import com.nietzche.codegenerator.context.Field;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+/**
+ * @Author: maxwellens
+ * @Date: 2019/3/26 21:02
+ */
+public class MetaDataHelper
+{
+    private Properties properties;
+    private Connection connection;
+    private DatabaseMetaData metaData;
+
+    public MetaDataHelper(Properties properties)
+    {
+        this.properties = properties;
+        try
+        {
+            init();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void init() throws ClassNotFoundException, SQLException
+    {
+        String driverClassName = properties.getProperty("jdbc.driverClassName");
+        String url = properties.getProperty("jdbc.url");
+        String userName = properties.getProperty("jdbc.username");
+        String password = properties.getProperty("jdbc.password");
+        if (Strings.isNullOrEmpty(driverClassName))
+        {
+            throw new IllegalArgumentException("jdbc.driverClassName not config");
+        }
+        if (Strings.isNullOrEmpty(url))
+        {
+            throw new IllegalArgumentException("jdbc.url not config");
+        }
+        if (Strings.isNullOrEmpty(userName))
+        {
+            throw new IllegalArgumentException("jdbc.username not config");
+        }
+        if (Strings.isNullOrEmpty(password))
+        {
+            throw new IllegalArgumentException("jdbc.password not config");
+        }
+        Class.forName(driverClassName);
+        connection = DriverManager.getConnection(url, userName, password);
+        metaData = connection.getMetaData();
+    }
+
+    public List<Field> getFields(String tableName) throws SQLException
+    {
+        List<Field> fields = new ArrayList<Field>();
+        ResultSet resultSet = metaData.getColumns(connection.getCatalog(), "%", tableName, "%");
+        while (resultSet.next())
+        {
+            String columnName = resultSet.getString("COLUMN_NAME");
+            String instanceName = new CodeStyle(columnName).toInstanceName();
+            int digits = resultSet.getInt("DECIMAL_DIGITS");
+            int dbType = resultSet.getInt("DATA_TYPE");
+            String remark = resultSet.getString("REMARKS");
+            String javaType = getJavaType(dbType, digits);
+            Field field = new Field();
+            field.setDbType(dbType);
+            field.setJavaType(javaType);
+            field.setName(instanceName);
+            field.setRemark(remark);
+            fields.add(field);
+        }
+        return fields;
+    }
+
+    /**
+     * translate database type into java type
+     *
+     * @param dbType
+     * @return
+     */
+    private String getJavaType(int dbType, int digits)
+    {
+        String javaType;
+        switch (dbType)
+        {
+            //12
+            case Types.VARCHAR:
+                javaType = "String";
+                break;
+            //4
+            case Types.INTEGER:
+                javaType = "Integer";
+                break;
+            //4
+            case Types.SMALLINT:
+                javaType = "Integer";
+                break;
+            //4
+            case Types.TINYINT:
+                javaType = "Integer";
+                break;
+            //-7
+            case Types.BIT:
+                javaType = "Integer";
+                break;
+            //-1
+            case Types.LONGVARCHAR:
+                javaType = "String";
+                break;
+            //-5
+            case Types.BIGINT:
+                javaType = "Long";
+                break;
+            //8
+            case Types.DOUBLE:
+                javaType = getPrecisionType();
+                break;
+            //7
+            case Types.REAL:
+                javaType = getPrecisionType();
+                break;
+            //6
+            case Types.FLOAT:
+                javaType = getPrecisionType();
+                break;
+            //3
+            case Types.DECIMAL:
+                javaType = "BigDecimal";
+                break;
+            //2
+            case Types.NUMERIC:
+                switch (digits)
+                {
+                    case 0:
+                        javaType = "Integer";
+                        break;
+                    default:
+                        javaType = getPrecisionType();
+                }
+                break;
+            //91
+            case Types.TIME:
+                javaType = "Date";
+                break;
+            //91
+            case Types.DATE:
+                javaType = "Date";
+                break;
+            //93
+            case Types.TIMESTAMP:
+                javaType = "Date";
+                break;
+            default:
+                javaType = "String";
+        }
+        return javaType;
+    }
+
+    private String getPrecisionType()
+    {
+        String dataType;
+        if ("high".equals(properties.getProperty("precision")))
+        {
+            dataType = "BigDecimal";
+        } else
+        {
+            dataType = "Double";
+        }
+        return dataType;
+    }
+
+    public void close()
+    {
+        if (connection != null)
+        {
+            try
+            {
+                connection.close();
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}
