@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.nietzche.codegenerator.util.CodeStyle;
 import com.nietzche.codegenerator.util.MetaDataHelper;
 import lombok.Data;
+import lombok.ToString;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -116,4 +117,6 @@ public class GeneratorContext
      * 是否覆盖原文件
      */
     private boolean overWritten;
+
+
 }

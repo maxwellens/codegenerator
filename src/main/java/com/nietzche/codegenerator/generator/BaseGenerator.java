@@ -23,10 +23,6 @@ import java.util.Properties;
 @Slf4j
 public class BaseGenerator implements Generator
 {
-    /**
-     * velocity上下文
-     */
-    protected VelocityContext velocityContext = new VelocityContext();
 
     protected String vmFileName = null;
     protected String targetFileName = null;
@@ -59,8 +55,10 @@ public class BaseGenerator implements Generator
         }
     }
 
+    @Override
     public void generate(GeneratorContext generatorContext) throws IOException
     {
+        VelocityContext velocityContext = new VelocityContext();
         initVelocityContext(velocityContext, generatorContext);
         if (Strings.isNullOrEmpty(vmFileName))
         {
@@ -98,21 +96,20 @@ public class BaseGenerator implements Generator
                 template = engine.getTemplate(vmPath + vmFileName);
             }
         }
-        targetFileName = FileUtils.parseTargetFileName(targetFileName, generatorContext);
-        File targetFile = new File(targetFileName);
+        File targetFile = new File(FileUtils.parseTargetFileName(targetFileName, generatorContext));
         if (targetFile.exists())
         {
             if (generatorContext.isOverWritten())
             {
-                log.info("{}已存在，将替换", targetFileName);
+                log.info("{}已存在，将替换", targetFile.getAbsoluteFile());
             } else
             {
-                log.error("{}已存在，取消操作", targetFileName);
+                log.error("{}已存在，取消操作", targetFile.getAbsoluteFile());
                 return;
             }
         }
         FileUtils.checkFolder(targetFile);
-        FileWriter writer = new FileWriter(targetFileName);
+        FileWriter writer = new FileWriter(targetFile);
         template.merge(velocityContext, writer);
         writer.close();
     }

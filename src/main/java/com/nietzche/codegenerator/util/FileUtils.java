@@ -1,6 +1,7 @@
 package com.nietzche.codegenerator.util;
 
 import com.nietzche.codegenerator.context.GeneratorContext;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.Properties;
  * @Author: maxwellens
  * @Date: 2019/3/26 20:02
  */
+@Slf4j
 public class FileUtils
 {
     public static final String COLON = ":";
@@ -49,7 +51,9 @@ public class FileUtils
         {
             fileName = context.getProjectPath() + fileName;
         }
-        return fileName.replace("{{className}}", context.getClassName());
+        fileName = fileName.replace("{{packagePath}}",context.getBasePackage().replace(".","/"));
+        fileName = fileName.replace("{{className}}", context.getClassName());
+        return fileName;
     }
 
     public static Properties loadConfigProperties()

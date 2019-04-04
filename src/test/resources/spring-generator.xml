@@ -5,12 +5,12 @@
 
     <bean id="pojoGenerator" class="com.nietzche.codegenerator.generator.PojoGenerator">
         <property name="vmFileName" value="pojo.vm"/>
-        <property name="targetFileName" value="sourcePath:com/game/sango/bean/{{className}}.java"/>
+        <property name="targetFileName" value="sourcePath:{{packagePath}}/bean/{{className}}.java"/>
     </bean>
 
     <bean id="daoGenerator" class="com.nietzche.codegenerator.generator.BaseGenerator">
         <property name="vmFileName" value="dao.vm"/>
-        <property name="targetFileName" value="sourcePath:com/game/sango/dao/{{className}}Dao.java"/>
+        <property name="targetFileName" value="sourcePath:{{packagePath}}/dao/{{className}}Dao.java"/>
     </bean>
 
     <bean id="mapperGenerator" class="com.nietzche.codegenerator.generator.MapperGenerator">
@@ -20,12 +20,12 @@
 
     <bean id="serviceGenerator" class="com.nietzche.codegenerator.generator.BaseGenerator">
         <property name="vmFileName" value="service.vm"/>
-        <property name="targetFileName" value="sourcePath:com/game/sango/service/{{className}}Service.java"/>
+        <property name="targetFileName" value="sourcePath:{{packagePath}}/service/{{className}}Service.java"/>
     </bean>
 
     <bean id="controllerGenerator" class="com.nietzche.codegenerator.generator.BaseGenerator">
         <property name="vmFileName" value="controller.vm"/>
-        <property name="targetFileName" value="sourcePath:com/game/sango/controller/{{className}}Controller.java"/>
+        <property name="targetFileName" value="sourcePath:{{packagePath}}/web/{{className}}Controller.java"/>
     </bean>
 
 </beans>
