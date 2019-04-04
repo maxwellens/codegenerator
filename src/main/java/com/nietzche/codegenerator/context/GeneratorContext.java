@@ -31,6 +31,8 @@ public class GeneratorContext
         CodeStyle codeStyle = new CodeStyle(tableName);
         className = codeStyle.toClassName();
         instanceName = codeStyle.toInstanceName();
+        complexClassName = codeStyle.toComplexClassName();
+        complexInstanceName = codeStyle.toComplexInstanceName();
         resourceName = codeStyle.toResourceName();
         MetaDataHelper metaDataHelper = new MetaDataHelper(properties);
         fields = metaDataHelper.getFields(tableName);
@@ -42,7 +44,7 @@ public class GeneratorContext
         vmPath = properties.getProperty("vm-path");
         if (Strings.isNullOrEmpty(vmPath))
         {
-            vmPath = "vm/";
+            vmPath = "src/test/resources/vm/";
         }
         author = properties.getProperty("author");
         if (Strings.isNullOrEmpty(author))
@@ -57,11 +59,6 @@ public class GeneratorContext
         if (basePackage == null)
         {
             throw new IllegalArgumentException("base-package not config");
-        }
-        srcPath = properties.getProperty("src-path");
-        if (Strings.isNullOrEmpty(srcPath))
-        {
-            srcPath = "src/main/java/" + basePackage.replace(".", "/") + "/";
         }
     }
 
@@ -84,11 +81,6 @@ public class GeneratorContext
      */
     private String vmPath;
     /**
-     * 源代码目录
-     * 可以是绝对路径，也可以是相对路径（相对于projectPath）
-     */
-    private String srcPath;
-    /**
      * 表名
      */
     private String tableName;
@@ -101,9 +93,17 @@ public class GeneratorContext
      */
     private String className;
     /**
+     * 类名复数(Java驼峰命名规范)
+     */
+    private String complexClassName;
+    /**
      * 实例名(Java驼峰命名规范)
      */
     private String instanceName;
+    /**
+     * 实例名复数(Java驼峰命名规范)
+     */
+    private String complexInstanceName;
     /**
      * 资源名(-分割)
      */

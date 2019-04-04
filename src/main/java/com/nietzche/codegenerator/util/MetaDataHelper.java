@@ -69,13 +69,14 @@ public class MetaDataHelper
             String columnName = resultSet.getString("COLUMN_NAME");
             String instanceName = new CodeStyle(columnName).toInstanceName();
             int digits = resultSet.getInt("DECIMAL_DIGITS");
-            int dbType = resultSet.getInt("DATA_TYPE");
+            int columnType = resultSet.getInt("DATA_TYPE");
             String remark = resultSet.getString("REMARKS");
-            String javaType = getJavaType(dbType, digits);
+            String propertyType = getJavaType(columnType, digits);
             Field field = new Field();
-            field.setDbType(dbType);
-            field.setJavaType(javaType);
-            field.setName(instanceName);
+            field.setColumnName(columnName);
+            field.setColumnType(columnType);
+            field.setPropertyType(propertyType);
+            field.setPropertyName(instanceName);
             field.setRemark(remark);
             fields.add(field);
         }

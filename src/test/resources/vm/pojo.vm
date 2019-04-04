@@ -5,7 +5,6 @@ import lombok.Data;
 #foreach($imp in $imports)
 import ${imp};
 #end
-
 /**
  * @Author: ${author}
  */
@@ -16,6 +15,6 @@ public class ${className}
     /**
      * ${field.remark}
      */
-    private ${field.javaType} ${field.name};
+    private ${field.propertyType} ${field.propertyName};
 #end
 }

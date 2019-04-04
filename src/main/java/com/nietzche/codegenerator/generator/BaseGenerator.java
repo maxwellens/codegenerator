@@ -21,7 +21,7 @@ import java.util.Properties;
  * @Date: 2019/3/26 16:17
  */
 @Slf4j
-public abstract class BaseGenerator implements Generator
+public class BaseGenerator implements Generator
 {
     /**
      * velocity上下文
@@ -29,15 +29,26 @@ public abstract class BaseGenerator implements Generator
     protected VelocityContext velocityContext = new VelocityContext();
 
     protected String vmFileName = null;
-    protected String targetPath = "";
     protected String targetFileName = null;
+
+    public void setVmFileName(String vmFileName)
+    {
+        this.vmFileName = vmFileName;
+    }
+
+    public void setTargetFileName(String targetFileName)
+    {
+        this.targetFileName = targetFileName;
+    }
 
     protected void initVelocityContext(VelocityContext velocityContext, GeneratorContext generatorContext)
     {
         velocityContext.put("tableName", generatorContext.getTableName());
         velocityContext.put("author", generatorContext.getAuthor());
         velocityContext.put("className", generatorContext.getClassName());
+        velocityContext.put("complexClassName", generatorContext.getComplexClassName());
         velocityContext.put("instanceName", generatorContext.getInstanceName());
+        velocityContext.put("complexInstanceName", generatorContext.getComplexInstanceName());
         velocityContext.put("resourceName", generatorContext.getResourceName());
         velocityContext.put("basePackage", generatorContext.getBasePackage());
         velocityContext.put("fields", generatorContext.getFields());
@@ -87,29 +98,21 @@ public abstract class BaseGenerator implements Generator
                 template = engine.getTemplate(vmPath + vmFileName);
             }
         }
-        String absTargetPath;
-        if (FileUtils.isAbsolutePath(targetPath))
-        {
-            absTargetPath = targetPath;
-        } else
-        {
-            absTargetPath = generatorContext.getProjectPath() + targetPath;
-        }
-        String absTargetFileName = absTargetPath + targetFileName;
-        File absTargetFile = new File(absTargetFileName);
-        if (absTargetFile.exists())
+        targetFileName = FileUtils.parseTargetFileName(targetFileName, generatorContext);
+        File targetFile = new File(targetFileName);
+        if (targetFile.exists())
         {
             if (generatorContext.isOverWritten())
             {
-                log.info("{}已存在，将替换", absTargetFileName);
+                log.info("{}已存在，将替换", targetFileName);
             } else
             {
-                log.error("{}已存在，取消操作", absTargetFileName);
+                log.error("{}已存在，取消操作", targetFileName);
                 return;
             }
         }
-        new File(absTargetPath).mkdirs();
-        FileWriter writer = new FileWriter(absTargetFileName);
+        FileUtils.checkFolder(targetFile);
+        FileWriter writer = new FileWriter(targetFileName);
         template.merge(velocityContext, writer);
         writer.close();
     }

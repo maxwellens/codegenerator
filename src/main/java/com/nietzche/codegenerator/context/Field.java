@@ -10,17 +10,21 @@ import lombok.Data;
 public class Field
 {
     /**
-     * 字段名
+     * 数据库字段名
      */
-    private String name;
+    private String columnName;
     /**
-     * 数据库类型
+     * 数据库字段类型
      */
-    private int dbType;
+    private int columnType;
+    /**
+     * Java属性名
+     */
+    private String propertyName;
     /**
      * Java数据类型
      */
-    private String javaType;
+    private String propertyType;
     /**
      * 注解
      */

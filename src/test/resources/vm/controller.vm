@@ -1,0 +1,63 @@
+package ${basePackage}.controller;
+
+import ${basePackage}.bean.${className};
+import com.game.sango.bean.Page;
+import ${basePackage}.service.${className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @Author: ${author}
+ */
+@Controller
+public class ${className}Controller
+{
+	@Autowired
+	private ${className}Service ${instanceName}Service;
+
+	@RequestMapping("/find${className}ById")
+	@ResponseBody
+	public ${className} find${className}ById(int id)
+	{
+		return ${instanceName}Service.find${className}ById(id);
+	}
+
+	@RequestMapping("/find${complexClassName}")
+	@ResponseBody
+	public Page<${className}> find${complexClassName}(Integer draw, Integer start, Integer length, @RequestParam(required = false) String keyword)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("length", length);
+		map.put("keyword", keyword);
+		Page<${className}> page = new Page<>();
+		page.setDraw(draw);
+		page.setTotal(${instanceName}Service.find${complexClassName}Count(map));
+		page.setData(${instanceName}Service.find${complexClassName}(map));
+		return page;
+	}
+
+	@RequestMapping("/delete${complexClassName}/{ids}")
+	@ResponseBody
+	public String delete${className}ById(@PathVariable String ids)
+	{
+		${instanceName}Service.delete${complexClassName}(ids);
+		return "success";
+	}
+
+	@RequestMapping("/save${className}")
+	@ResponseBody
+	public Integer save${className}(${className} ${instanceName})
+	{
+		${instanceName}Service.save${className}(${instanceName});
+		return 1;
+	}
+
+}

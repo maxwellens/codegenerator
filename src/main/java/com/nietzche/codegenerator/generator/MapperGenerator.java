@@ -1,9 +1,10 @@
 package com.nietzche.codegenerator.generator;
 
+import com.nietzche.codegenerator.context.Field;
 import com.nietzche.codegenerator.context.GeneratorContext;
 import org.apache.velocity.VelocityContext;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * @Author: maxwellens
@@ -15,5 +16,15 @@ public class MapperGenerator extends BaseGenerator
     protected void initVelocityContext(VelocityContext velocityContext, GeneratorContext generatorContext)
     {
         super.initVelocityContext(velocityContext, generatorContext);
+        List<Field> fields = generatorContext.getFields();
+        StringBuilder colSb = new StringBuilder();
+        StringBuilder proSb = new StringBuilder();
+        for (Field field : fields)
+        {
+            colSb.append(field.getColumnName()).append(",");
+            proSb.append("#{").append(field.getPropertyName()).append("},");
+        }
+        velocityContext.put("columns", colSb.substring(0, colSb.length() - 1));
+        velocityContext.put("properties", proSb.substring(0, proSb.length() - 1));
     }
 }

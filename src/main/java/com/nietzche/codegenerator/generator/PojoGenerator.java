@@ -24,7 +24,7 @@ public class PojoGenerator extends BaseGenerator
         List<Field> fields = generatorContext.getFields();
         for (Field field : fields)
         {
-            String type = field.getJavaType();
+            String type = field.getPropertyType();
             if (type.equals("BigDecimal"))
             {
                 imports.add("java.math.BigDecimal");
@@ -39,8 +39,5 @@ public class PojoGenerator extends BaseGenerator
             }
         }
         velocityContext.put("imports", imports);
-        vmFileName = "pojo.vm";
-        targetPath = generatorContext.getSrcPath() + "bean/";
-        targetFileName = generatorContext.getClassName() + ".java";
     }
 }

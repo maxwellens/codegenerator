@@ -1,0 +1,28 @@
+package ${basePackage}.dao;
+
+import ${basePackage}.bean.${className};
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Author: ${author}
+ */
+@Repository
+public interface ${className}Dao
+{
+    List<${className}> find${complexClassName}(Map<String, Object> map);
+
+    Integer find${complexClassName}Count(Map<String, Object> map);
+
+    ${className} find${className}ById(Integer id);
+
+    int insert${className}(${className} ${instanceName});
+
+    void delete${className}ById(Integer id);
+
+    void delete${complexClassName}(String ids);
+
+    int update${className}(${className} ${instanceName});
+}

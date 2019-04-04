@@ -2,6 +2,8 @@ package com.nietzche.codegenerator.util;
 
 import com.google.common.base.Strings;
 
+import java.util.Arrays;
+
 /**
  * @Author: maxwellens
  * @Date: 2019/3/26 22:13
@@ -9,7 +11,7 @@ import com.google.common.base.Strings;
 public class CodeStyle
 {
     public static final String SPACE = " ";
-    public static final String UNDERLINE = "_";
+    public static final String UNDER_SCORE = "_";
     public static final String DASH = "-";
     public static final String SLASH = "\\";
     public static final String BACK_SLASH = "/";
@@ -22,7 +24,7 @@ public class CodeStyle
         //包含分隔符，全部转成空格分割
         if (containsSeperator(string))
         {
-            string = string.replace(UNDERLINE, SPACE).replace(UNDERLINE, SPACE).replace(DASH, SPACE).replace(SLASH,
+            string = string.replace(UNDER_SCORE, SPACE).replace(UNDER_SCORE, SPACE).replace(DASH, SPACE).replace(SLASH,
                     SPACE).replace(BACK_SLASH, SPACE)
                     .replace(DOT, SPACE).replace(SLASH, SPACE).replace(VERTICAL, SPACE);
 
@@ -64,10 +66,27 @@ public class CodeStyle
      */
     public String toClassName()
     {
+        return concatClassSegment(segments);
+    }
+
+    /**
+     * 生成驼峰的类命名规范（复数形式）
+     *
+     * @return
+     */
+    public String toComplexClassName()
+    {
+        String[] strings = Arrays.copyOf(segments, segments.length);
+        strings[segments.length - 1] = Inflector.pluralize(segments[segments.length - 1]);
+        return concatClassSegment(strings);
+    }
+
+    private String concatClassSegment(String[] strings)
+    {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < segments.length; i++)
+        for (int i = 0; i < strings.length; i++)
         {
-            sb.append(firstCharToUpperCase(segments[i]));
+            sb.append(firstCharToUpperCase(strings[i]));
         }
         return sb.toString();
     }
@@ -79,11 +98,28 @@ public class CodeStyle
      */
     public String toInstanceName()
     {
+        return concatInstanceSegment(segments);
+    }
+
+    /**
+     * 生成驼峰的实例命名规范（复数）
+     *
+     * @return
+     */
+    public String toComplexInstanceName()
+    {
+        String[] strings = Arrays.copyOf(segments, segments.length);
+        strings[segments.length - 1] = Inflector.pluralize(segments[segments.length - 1]);
+        return concatInstanceSegment(strings);
+    }
+
+    private String concatInstanceSegment(String[] strings)
+    {
         StringBuilder sb = new StringBuilder();
-        sb.append(segments[0]);
-        for (int i = 1; i < segments.length; i++)
+        sb.append(strings[0]);
+        for (int i = 1; i < strings.length; i++)
         {
-            sb.append(firstCharToUpperCase(segments[i]));
+            sb.append(firstCharToUpperCase(strings[i]));
         }
         return sb.toString();
     }
@@ -95,7 +131,7 @@ public class CodeStyle
      */
     public String toDbName()
     {
-        return concatsStringBySeperator(UNDERLINE);
+        return concatsStringBySeperator(UNDER_SCORE);
     }
 
     /**
