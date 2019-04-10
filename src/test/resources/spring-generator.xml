@@ -28,4 +28,9 @@
         <property name="targetFileName" value="sourcePath:{{packagePath}}/web/{{className}}Controller.java"/>
     </bean>
 
+    <bean id="htmlGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
+        <property name="vmFileName" value="html.vm"/>
+        <property name="targetFileName" value="resourcePath:static/{{resourceName}}.html"/>
+    </bean>
+
 </beans>
