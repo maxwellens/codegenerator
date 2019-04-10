@@ -1,7 +1,7 @@
-package com.nietzche.codegenerator.util;
+package com.huffman.codegenerator.util;
 
 import com.google.common.base.Strings;
-import com.nietzche.codegenerator.context.Field;
+import com.huffman.codegenerator.context.Field;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,8 +56,37 @@ public class MetaDataHelper
             throw new IllegalArgumentException("jdbc.password not config");
         }
         Class.forName(driverClassName);
-        connection = DriverManager.getConnection(url, userName, password);
+        Properties props = new Properties();
+        props.setProperty("user", userName);
+        props.setProperty("password", password);
+        props.setProperty("useInformationSchema", "true");
+        connection = DriverManager.getConnection(url, props);
         metaData = connection.getMetaData();
+    }
+
+    public List<String> getTables() throws SQLException
+    {
+        List<String> tables = new ArrayList<>();
+        ResultSet resultSet = metaData.getTables(connection.getCatalog(), "%", "%", new String[]{"TABLE"});
+        while (resultSet.next())
+        {
+            String table = resultSet.getString("TABLE_NAME");
+            tables.add(table);
+        }
+        return tables;
+    }
+
+    public String getTableRemark(String table) throws SQLException
+    {
+        ResultSet resultSet = metaData.getTables(connection.getCatalog(), "%", table, new String[]{"TABLE"});
+        if (resultSet.next())
+        {
+            String remarks = resultSet.getString("REMARKS");
+            return remarks;
+        } else
+        {
+            return null;
+        }
     }
 
     public List<Field> getFields(String tableName) throws SQLException
@@ -70,14 +99,24 @@ public class MetaDataHelper
             String instanceName = new CodeStyle(columnName).toInstanceName();
             int digits = resultSet.getInt("DECIMAL_DIGITS");
             int columnType = resultSet.getInt("DATA_TYPE");
-            String remark = resultSet.getString("REMARKS");
+            String comment = resultSet.getString("REMARKS");
+            String isNullable = resultSet.getString("IS_NULLABLE");
+            String isAutoIncrement = resultSet.getString("IS_AUTOINCREMENT");
             String propertyType = getJavaType(columnType, digits);
             Field field = new Field();
             field.setColumnName(columnName);
             field.setColumnType(columnType);
             field.setPropertyType(propertyType);
             field.setPropertyName(instanceName);
-            field.setRemark(remark);
+            field.setComment(comment);
+            if ("NO".equalsIgnoreCase(isNullable))
+            {
+                field.setNotNull(true);
+            }
+            if ("YES".equalsIgnoreCase(isAutoIncrement))
+            {
+                field.setAutoIncrement(true);
+            }
             fields.add(field);
         }
         return fields;

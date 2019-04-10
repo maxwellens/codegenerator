@@ -1,4 +1,4 @@
-package com.nietzche.codegenerator.util;
+package com.huffman.codegenerator.util;
 
 import org.apache.commons.lang.StringUtils;
 

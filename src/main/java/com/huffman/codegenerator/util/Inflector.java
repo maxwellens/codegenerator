@@ -1,4 +1,4 @@
-package com.nietzche.codegenerator.util;
+package com.huffman.codegenerator.util;
 
 import java.util.ArrayList;
 import java.util.List;

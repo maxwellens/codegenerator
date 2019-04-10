@@ -1,7 +1,7 @@
-package com.nietzche.codegenerator.generator;
+package com.huffman.codegenerator.generator;
 
-import com.nietzche.codegenerator.context.Field;
-import com.nietzche.codegenerator.context.GeneratorContext;
+import com.huffman.codegenerator.context.Field;
+import com.huffman.codegenerator.context.GeneratorContext;
 import org.apache.velocity.VelocityContext;
 
 import java.util.List;
@@ -21,8 +21,11 @@ public class MapperGenerator extends BaseGenerator
         StringBuilder proSb = new StringBuilder();
         for (Field field : fields)
         {
-            colSb.append(field.getColumnName()).append(",");
-            proSb.append("#{").append(field.getPropertyName()).append("},");
+            if(!field.isAutoIncrement())
+            {
+                colSb.append("`").append(field.getColumnName()).append("`,");
+                proSb.append("#{").append(field.getPropertyName()).append("},");
+            }
         }
         velocityContext.put("columns", colSb.substring(0, colSb.length() - 1));
         velocityContext.put("properties", proSb.substring(0, proSb.length() - 1));

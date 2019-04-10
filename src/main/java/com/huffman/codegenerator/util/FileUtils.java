@@ -1,6 +1,6 @@
-package com.nietzche.codegenerator.util;
+package com.huffman.codegenerator.util;
 
-import com.nietzche.codegenerator.context.GeneratorContext;
+import com.huffman.codegenerator.context.GeneratorContext;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -53,6 +53,7 @@ public class FileUtils
         }
         fileName = fileName.replace("{{packagePath}}",context.getBasePackage().replace(".","/"));
         fileName = fileName.replace("{{className}}", context.getClassName());
+        fileName = fileName.replace("{{resourceName}}", context.getResourceName());
         return fileName;
     }
 

@@ -1,8 +1,8 @@
-package com.nietzche.codegenerator.generator;
+package com.huffman.codegenerator.generator;
 
 import com.google.common.base.Strings;
-import com.nietzche.codegenerator.context.GeneratorContext;
-import com.nietzche.codegenerator.util.FileUtils;
+import com.huffman.codegenerator.context.GeneratorContext;
+import com.huffman.codegenerator.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -40,6 +40,7 @@ public class BaseGenerator implements Generator
     protected void initVelocityContext(VelocityContext velocityContext, GeneratorContext generatorContext)
     {
         velocityContext.put("tableName", generatorContext.getTableName());
+        velocityContext.put("tableComment", generatorContext.getTableComment());
         velocityContext.put("author", generatorContext.getAuthor());
         velocityContext.put("className", generatorContext.getClassName());
         velocityContext.put("complexClassName", generatorContext.getComplexClassName());

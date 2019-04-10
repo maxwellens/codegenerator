@@ -1,7 +1,7 @@
-package com.nietzche.codegenerator.generator;
+package com.huffman.codegenerator.generator;
 
-import com.nietzche.codegenerator.context.Field;
-import com.nietzche.codegenerator.context.GeneratorContext;
+import com.huffman.codegenerator.context.Field;
+import com.huffman.codegenerator.context.GeneratorContext;
 import org.apache.velocity.VelocityContext;
 
 import java.util.HashSet;

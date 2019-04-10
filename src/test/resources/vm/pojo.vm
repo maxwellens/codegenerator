@@ -6,6 +6,7 @@ import lombok.Data;
 import ${imp};
 #end
 /**
+ * ${tableComment}
  * @Author: ${author}
  */
 @Data
@@ -13,7 +14,7 @@ public class ${className}
 {
 #foreach($field in $fields)
     /**
-     * ${field.remark}
+     * ${field.comment}
      */
     private ${field.propertyType} ${field.propertyName};
 #end

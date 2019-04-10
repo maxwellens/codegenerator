@@ -1,13 +1,15 @@
-package com.nietzche.codegenerator.generator;
+package com.huffman.codegenerator.generator;
 
 import com.google.common.base.Strings;
-import com.nietzche.codegenerator.context.GeneratorContext;
-import com.nietzche.codegenerator.util.FileUtils;
+import com.huffman.codegenerator.context.GeneratorContext;
+import com.huffman.codegenerator.util.FileUtils;
+import com.huffman.codegenerator.util.MetaDataHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -18,6 +20,8 @@ import java.util.Properties;
 @Slf4j
 public class GeneratorRunner
 {
+    private static final String STAR = "*";
+
     private ApplicationContext context;
 
     public GeneratorRunner(ApplicationContext context)
@@ -25,7 +29,7 @@ public class GeneratorRunner
         this.context = context;
     }
 
-    public void run() throws IOException
+    public void run() throws IOException, SQLException
     {
         log.info("-------------开始执行自动化代码生成-------------------");
         Map<String, Generator> map = context.getBeansOfType(Generator.class);
@@ -36,8 +40,17 @@ public class GeneratorRunner
             log.error("tables properties not found");
             return;
         }
-
-        String[] tableNames = tables.split(",");
+        String[] tableNames;
+        if (STAR.equals(tables))
+        {
+            MetaDataHelper metaDataHelper = new MetaDataHelper(properties);
+            List<String> tabs = metaDataHelper.getTables();
+            tableNames = new String[tabs.size()];
+            tabs.toArray(tableNames);
+        } else
+        {
+            tableNames = tables.split(",");
+        }
         for (String tableName : tableNames)
         {
             log.info("开始生成表{}的代码", tableName);

@@ -1,10 +1,9 @@
-package com.nietzche.codegenerator.context;
+package com.huffman.codegenerator.context;
 
 import com.google.common.base.Strings;
-import com.nietzche.codegenerator.util.CodeStyle;
-import com.nietzche.codegenerator.util.MetaDataHelper;
+import com.huffman.codegenerator.util.MetaDataHelper;
+import com.huffman.codegenerator.util.CodeStyle;
 import lombok.Data;
-import lombok.ToString;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -37,6 +36,7 @@ public class GeneratorContext
         resourceName = codeStyle.toResourceName();
         MetaDataHelper metaDataHelper = new MetaDataHelper(properties);
         fields = metaDataHelper.getFields(tableName);
+        this.tableComment = metaDataHelper.getTableRemark(tableName);
         projectPath = properties.getProperty("project-path");
         if (Strings.isNullOrEmpty(projectPath))
         {
@@ -85,6 +85,10 @@ public class GeneratorContext
      * 表名
      */
     private String tableName;
+    /**
+     * 表注释
+     */
+    private String tableComment;
     /**
      * 作者
      */

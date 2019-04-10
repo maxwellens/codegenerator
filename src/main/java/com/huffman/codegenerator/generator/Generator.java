@@ -1,6 +1,6 @@
-package com.nietzche.codegenerator.generator;
+package com.huffman.codegenerator.generator;
 
-import com.nietzche.codegenerator.context.GeneratorContext;
+import com.huffman.codegenerator.context.GeneratorContext;
 
 import java.io.IOException;
 
