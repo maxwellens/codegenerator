@@ -1,12 +1,16 @@
 package ${basePackage}.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 #foreach($imp in $imports)
 import ${imp};
 #end
+
 /**
  * ${tableComment}
+ *
  * @Author: ${author}
  */
 @Data
@@ -16,6 +20,14 @@ public class ${className}
     /**
      * ${field.comment}
      */
+#if($field.columnType == 91)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+#end
+#if($field.columnType == 93)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#end
     private ${field.propertyType} ${field.propertyName};
 #end
 }

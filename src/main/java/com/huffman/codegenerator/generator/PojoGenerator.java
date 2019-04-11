@@ -24,6 +24,7 @@ public class PojoGenerator extends BaseGenerator
         List<Field> fields = generatorContext.getFields();
         for (Field field : fields)
         {
+            System.out.printf("name:%s,columnType:%s\r\n",field.getColumnName(),field.getColumnType());
             String type = field.getPropertyType();
             if (type.equals("BigDecimal"))
             {
