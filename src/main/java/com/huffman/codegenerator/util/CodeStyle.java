@@ -248,18 +248,4 @@ public class CodeStyle
         return c >= 97 && c <= 122;
     }
 
-    public static void main(String[] args)
-    {
-        String source = "thank.you very-much";
-        //String source = "ThankYouVeryMuch";
-        long t1 = System.currentTimeMillis();
-        CodeStyle codeStyle = new CodeStyle(source);
-        long t2 = System.currentTimeMillis();
-        System.out.println(t2 - t1);
-        System.out.println("sourceName:" + source);
-        System.out.println("className:" + codeStyle.toClassName());
-        System.out.println("instanceName:" + codeStyle.toInstanceName());
-        System.out.println("resourceName:" + codeStyle.toResourceName());
-        System.out.println("dbName:" + codeStyle.toDbName());
-    }
 }
