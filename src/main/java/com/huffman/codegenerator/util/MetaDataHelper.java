@@ -96,7 +96,9 @@ public class MetaDataHelper
         while (resultSet.next())
         {
             String columnName = resultSet.getString("COLUMN_NAME");
-            String instanceName = new CodeStyle(columnName).toInstanceName();
+            CodeStyle codeStyle = new CodeStyle(columnName);
+            String instanceName = codeStyle.toInstanceName();
+            String resourceName = codeStyle.toResourceName();
             int digits = resultSet.getInt("DECIMAL_DIGITS");
             int columnType = resultSet.getInt("DATA_TYPE");
             String comment = resultSet.getString("REMARKS");
@@ -108,6 +110,7 @@ public class MetaDataHelper
             field.setColumnType(columnType);
             field.setPropertyType(propertyType);
             field.setPropertyName(instanceName);
+            field.setResourceName(resourceName);
             field.setComment(comment);
             if ("NO".equalsIgnoreCase(isNullable))
             {

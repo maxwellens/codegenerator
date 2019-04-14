@@ -28,6 +28,10 @@ public class Field
      */
     private String propertyType;
     /**
+     * 资源名
+     */
+    private String resourceName;
+    /**
      * 注解
      */
     private String comment;
