@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${basePackage}.dao.${className}Dao">
-    <resultMap id="BaseResultMap" type="${basePackage}.bean.${className}">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-    </resultMap>
 
-    <select id="find${className}ById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="find${className}ById" resultType="${basePackage}.bean.${className}" parameterType="int">
         select * from ${tableName} where id = #{id}
     </select>
 
-    <select id="find${complexClassName}" resultMap="BaseResultMap">
+    <select id="find${complexClassName}" resultType="${basePackage}.bean.${className}">
         select * from ${tableName}
         <where>
-            <if test="keyword != null">
-                and name like concat("%",#{keyword},"%")
+#foreach($field in $fields)
+#if($field.searchable)
+#if($field.enumeration)
+            <if test="${field.propertyName} != null">
+                and ${field.columnName} = #{${field.propertyName}}
             </if>
+#else
+            <if test="${field.propertyName} != null">
+                and ${field.columnName} like concat("%",#{${field.propertyName}},"%")
+            </if>
+#end
+#end
+#end
         </where>
         <if test="start!=null and length!=null">
             limit #{start},#{length}
         </if>
     </select>
 
-    <select id="find${complexClassName}Count" resultType="java.lang.Integer">
+    <select id="find${complexClassName}Count" resultType="int">
         select count(1) from ${tableName}
         <where>
-            <if test="keyword != null">
-                and name like concat("%",#{keyword},"%")
+#foreach($field in $fields)
+#if($field.searchable)
+#if($field.enumeration)
+            <if test="${field.propertyName} != null">
+                and ${field.columnName} = #{${field.propertyName}}
             </if>
+#else
+            <if test="${field.propertyName} != null">
+                and ${field.columnName} like concat("%",#{${field.propertyName}},"%")
+            </if>
+#end
+#end
+#end
         </where>
     </select>
 
-    <delete id="delete${className}ById" parameterType="java.lang.Integer">
+    <delete id="delete${className}ById" parameterType="int">
         delete from ${tableName} where id = #{id}
     </delete>
 

@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="https://www.layui.com/admin/std/dist/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="https://www.layui.com/admin/std/dist/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="style/admin.css" media="all">
 </head>
 <body>
 
@@ -16,23 +16,37 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">${tableComment}列表</div>
+                <div class="layui-card-header">${tableComment}</div>
                 <div class="layui-card-body">
                     <div style="margin-bottom: 10px;">
                         <div class="layui-input-item" style="float:left;padding-right:10px;">
-                            <div class="layui-inline">
-                                <input id="keyword" type="text" name="title" required lay-verify="required"
-                                       placeholder="请输入关键词"
-                                       autocomplete="off" class="layui-input layui-input-search" style="height:32px;">
-                            </div>
-                            <div class="layui-inline">
-                                <a id="btn-search" class="layui-btn layui-btn-sm">查找</a>
-                            </div>
+                            <form class="layui-form">
+#foreach($field in $fields)
+#if($field.searchable && $field.enumeration)
+                                <div class="layui-inline">
+                                <select id="search-${field.resourceName}">
+                                    <option value="">请选择${field.comment}</option>
+#foreach($item in $field.enumMap.entrySet())
+                                    <option value="${item.key}">${item.value}</option>
+#end
+                                </select>
+                                </div>
+#end
+#if($field.searchable && !$field.enumeration)
+                                <div class="layui-inline">
+                                <input id="search-${field.resourceName}" type="text"
+                                       placeholder="请输入${field.comment}" class="layui-input layui-input-search">
+                                </div>
+#end
+#end
+                                <div class="layui-inline">
+                                    <a id="btn-search" class="layui-btn">查找</a>
+                                </div>
+                            </form>
                         </div>
                         <div style="float:right;">
-                            <a id="btn-add" class="layui-btn layui-btn-sm">添加</a>
-                            <!--<a class="layui-btn layui-btn-sm layui-btn-primary" lay-event="del">删除</a>-->
-                            <a id="btn-refresh" class="layui-btn layui-btn-sm layui-btn-primary">刷新</a>
+                            <a id="btn-add" class="layui-btn">添加</a>
+                            <a id="btn-refresh" class="layui-btn layui-btn-primary">刷新</a>
                         </div>
                         <div style="clear:both;"></div>
                     </div>
@@ -53,47 +67,67 @@
             <form class="layui-form" action="#" lay-filter="popup-form">
 #foreach($field in $fields)
 #if(!$field.autoIncrement)
-                <div class="layui-form-item">
-                    <label class="layui-form-label">#if($field.notNull)*#end${field.comment}</label>
-                    <div class="layui-input-block">
-                        <input type="${field.htmlType}" name="${field.propertyName}" class="layui-input" #if($field.notNull)lay-verify="required"#end>
-                    </div>
+#if($field.enumeration)
+            <div class="layui-form-item">
+                <label class="layui-form-label">#if($field.notNull)*#end${field.comment}</label>
+                <div class="layui-input-block">
+                    <select id="${field.resourceName}" name="${field.propertyName}">
+                        <option value="">请选择${field.comment}</option>
+#foreach($item in $field.enumMap.entrySet())
+                        <option value="${item.key}">${item.value}</option>
+#end
+                    </select>
                 </div>
+            </div>
 #else
-                <input type="hidden" name="${field.propertyName}">
-#end
-#end
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="form-submit">确定</button>
+            <div class="layui-form-item">
+                <label class="layui-form-label">#if($field.notNull)*#end${field.comment}</label>
+                <div class="layui-input-block">
+                    <input type="${field.htmlType}" name="${field.propertyName}" class="layui-input" #if($field.notNull)lay-verify="required"#end>
                 </div>
+            </div>
+#end
+#else
+            <input type="hidden" name="${field.propertyName}">
+#end
+#end
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="form-submit">确定</button>
+            </div>
             </form>
         </div>
     </div>
 </script>
-<script src="layuiadmin/layui/layui.js"></script>
+<script src="layui/layui.js"></script>
 <script>
     layui.config({
-        base: 'layuiadmin/' //静态资源所在路径
+        base: '/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'table', 'form'], function () {
+    }).use(['index', 'table', 'form' , 'laydate'], function () {
         var $ = layui.$;
         var table = layui.table;
         var form = layui.form;
         var admin = layui.admin;
+        var laydate = layui.laydate;
         var popupIndex;
+
         table.render({
             elem: '#data-table',
-            url: 'find${complexClassName}',
+            url: '${complexResourceName}',
             title: '',
             skin: 'line',
             cols: [[
 #foreach($field in $fields)
 #if(!$field.autoIncrement)
+#if($field.enumeration)
+                {field: '${field.propertyName}Text', title: '${field.comment}'},
+#else
                 {field: '${field.propertyName}', title: '${field.comment}'},
 #end
 #end
-                {fixed: 'right', title: '操作', toolbar: '#toolbar-operation', width: 120}
+#end
+                {fixed: 'right', title: '操作', toolbar: '#toolbar-operation'}
             ]],
             page: true
         });
@@ -105,6 +139,13 @@
                     var formHtml = $('#popup-form').html();
                     $('#' + this.id).html(formHtml);
                     form.render();
+#foreach($field in $fields)
+#if($field.propertyType == 'Date')
+                    laydate.render({
+                        elem: '#${field.resourceName}'
+                    });
+#end
+#end
                 }
             });
             return popupIndex;
@@ -119,7 +160,12 @@
         function search(){
             table.reload('data-table', {
                 where: {
-                    keyword: $('#keyword').val()
+#foreach($field in $fields)
+#if($field.searchable)
+                    ${field.propertyName}: $('#search-${field.resourceName}').val()#if($foreach.hasNext),#end
+
+#end
+#end
                 }
             });
         }
@@ -147,13 +193,16 @@
             var data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('真的删除该记录吗？', function (index) {
-                    $.get('delete${className}ById/'+data.id,function (result) {
-                        if (result == 1) {
-                            layer.msg('删除成功');
-                            table.reload('data-table');
-                        } else {
-                            layer.msg('删除失败');
-                            console.error('提交失败');
+                    $.ajax({
+                        url: '${complexResourceName}/' + data.id,
+                        type: 'DELETE',
+                        success: function (result) {
+                            if (result.code == 0) {
+                                layer.msg('删除成功');
+                                table.reload('data-table');
+                            } else {
+                                layer.msg('删除失败');
+                            }
                         }
                     });
                     layer.close(index);
@@ -165,13 +214,18 @@
         });
 
         form.on('submit(form-submit)', function (data) {
-            $.post('save${className}', data.field, function (result) {
-                if (result == 1) {
-                    layer.msg('提交成功');
-                    table.reload('data-table');
-                } else {
-                    layer.msg('提交失败');
-                    console.error('提交失败');
+            $.ajax({
+                url: '${complexResourceName}',
+                type: 'PUT',
+                data: data.field,
+                success: function (result) {
+                    if (result.code == 0) {
+                        layer.msg('提交成功');
+                        table.reload('data-table');
+                    } else {
+                        layer.msg('提交失败');
+                        console.error('提交失败');
+                    }
                 }
             });
             closePopupForm();

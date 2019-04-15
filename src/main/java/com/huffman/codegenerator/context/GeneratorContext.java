@@ -1,8 +1,8 @@
 package com.huffman.codegenerator.context;
 
 import com.google.common.base.Strings;
-import com.huffman.codegenerator.util.MetaDataHelper;
 import com.huffman.codegenerator.util.CodeStyle;
+import com.huffman.codegenerator.util.MetaDataHelper;
 import lombok.Data;
 
 import java.sql.SQLException;
@@ -31,9 +31,10 @@ public class GeneratorContext
         CodeStyle codeStyle = new CodeStyle(tableName);
         className = codeStyle.toClassName();
         instanceName = codeStyle.toInstanceName();
+        resourceName = codeStyle.toResourceName();
         complexClassName = codeStyle.toComplexClassName();
         complexInstanceName = codeStyle.toComplexInstanceName();
-        resourceName = codeStyle.toResourceName();
+        complexResourceName = codeStyle.toComplexResourceName();
         MetaDataHelper metaDataHelper = new MetaDataHelper(properties);
         fields = metaDataHelper.getFields(tableName);
         this.tableComment = metaDataHelper.getTableRemark(tableName);
@@ -113,6 +114,10 @@ public class GeneratorContext
      * 资源名(-分割)
      */
     private String resourceName;
+    /**
+     * 资源名复数(-分割)
+     */
+    private String complexResourceName;
     /**
      * 包名(.分割)
      */

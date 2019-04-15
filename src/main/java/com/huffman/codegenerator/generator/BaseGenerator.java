@@ -47,6 +47,7 @@ public class BaseGenerator implements Generator
         velocityContext.put("instanceName", generatorContext.getInstanceName());
         velocityContext.put("complexInstanceName", generatorContext.getComplexInstanceName());
         velocityContext.put("resourceName", generatorContext.getResourceName());
+        velocityContext.put("complexResourceName", generatorContext.getComplexResourceName());
         velocityContext.put("basePackage", generatorContext.getBasePackage());
         velocityContext.put("fields", generatorContext.getFields());
         Properties properties = generatorContext.getProperties();

@@ -20,7 +20,7 @@ public class PojoGenerator extends BaseGenerator
     protected void initVelocityContext(VelocityContext velocityContext, GeneratorContext generatorContext)
     {
         super.initVelocityContext(velocityContext, generatorContext);
-        Set<String> imports = new HashSet<String>();
+        Set<String> imports = new HashSet<>();
         List<Field> fields = generatorContext.getFields();
         for (Field field : fields)
         {

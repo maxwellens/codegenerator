@@ -7,6 +7,7 @@
         <property name="vmFileName" value="pojo.vm"/>
         <property name="targetFileName" value="sourcePath:{{packagePath}}/bean/{{className}}.java"/>
     </bean>
+<!--
 
     <bean id="daoGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
         <property name="vmFileName" value="dao.vm"/>
@@ -32,5 +33,6 @@
         <property name="vmFileName" value="html.vm"/>
         <property name="targetFileName" value="resourcePath:static/{{resourceName}}.html"/>
     </bean>
+-->
 
 </beans>

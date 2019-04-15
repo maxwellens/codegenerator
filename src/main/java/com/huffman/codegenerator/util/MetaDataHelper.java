@@ -91,7 +91,7 @@ public class MetaDataHelper
 
     public List<Field> getFields(String tableName) throws SQLException
     {
-        List<Field> fields = new ArrayList<Field>();
+        List<Field> fields = new ArrayList<>();
         ResultSet resultSet = metaData.getColumns(connection.getCatalog(), "%", tableName, "%");
         while (resultSet.next())
         {
@@ -101,7 +101,7 @@ public class MetaDataHelper
             String resourceName = codeStyle.toResourceName();
             int digits = resultSet.getInt("DECIMAL_DIGITS");
             int columnType = resultSet.getInt("DATA_TYPE");
-            String comment = resultSet.getString("REMARKS");
+            String remark = resultSet.getString("REMARKS");
             String isNullable = resultSet.getString("IS_NULLABLE");
             String isAutoIncrement = resultSet.getString("IS_AUTOINCREMENT");
             String propertyType = getJavaType(columnType, digits);
@@ -111,7 +111,7 @@ public class MetaDataHelper
             field.setPropertyType(propertyType);
             field.setPropertyName(instanceName);
             field.setResourceName(resourceName);
-            field.setComment(comment);
+            field.parseRemark(remark);
             if ("NO".equalsIgnoreCase(isNullable))
             {
                 field.setNotNull(true);
@@ -120,6 +120,7 @@ public class MetaDataHelper
             {
                 field.setAutoIncrement(true);
             }
+            field.determineHtmlType();
             fields.add(field);
         }
         return fields;

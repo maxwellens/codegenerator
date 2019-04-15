@@ -1,7 +1,7 @@
 package ${basePackage}.service;
 
 import ${basePackage}.bean.${className};
-import ${basePackage}.bean.Page;
+import ${basePackage}.bean.Result;
 import ${basePackage}.dao.${className}Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class ${className}Service
         return ${instanceName}Dao.find${complexClassName}Count(map);
     }
 
-    public Page<${className}> find${complexClassName}Page(Map<String, Object> map)
+    public Result find${complexClassName}Result(Map<String, Object> map)
     {
         Integer page = (Integer) map.get("page");
         Integer limit = (Integer) map.get("limit");
@@ -39,7 +39,7 @@ public class ${className}Service
         }
         int count = ${instanceName}Dao.find${complexClassName}Count(map);
         List<${className}> data = ${instanceName}Dao.find${complexClassName}(map);
-        return new Page(data, count);
+        return new Result(data, count);
     }
 
     public ${className} find${className}ById(Integer id)

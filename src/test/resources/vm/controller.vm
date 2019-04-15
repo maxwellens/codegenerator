@@ -1,68 +1,61 @@
-package ${basePackage}.controller;
+package ${basePackage}.web;
 
 import ${basePackage}.bean.${className};
-import ${basePackage}.bean.Page;
+import ${basePackage}.bean.Result;
 import ${basePackage}.service.${className}Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * @Author: ${author}
  */
-@Controller
+@RestController
 public class ${className}Controller
 {
 	@Autowired
 	private ${className}Service ${instanceName}Service;
 
-	@RequestMapping("/find${className}ById")
-	@ResponseBody
-	public ${className} find${className}ById(int id)
+	@GetMapping("/${complexResourceName}/{id}")
+	public ${className} find${className}ById(@PathVariable int id)
 	{
 		return ${instanceName}Service.find${className}ById(id);
 	}
 
-	@RequestMapping("/find${complexClassName}")
-	@ResponseBody
-	public Page<${className}> find${complexClassName}(Integer page, Integer limit, @RequestParam(required = false) String keyword)
+	@GetMapping("/${complexResourceName}")
+	public Result find${complexClassName}(Integer page, Integer limit,
+#foreach($field in $fields)
+#if($field.searchable)
+        @RequestParam(required = false) ${field.propertyType} ${field.propertyName}#if($foreach.hasNext),#end
+
+#end
+#end    )
 	{
 		Map<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("limit", limit);
-		map.put("keyword", keyword);
-		return ${instanceName}Service.find${complexClassName}Page(map);
+#foreach($field in $fields)
+#if($field.searchable)
+        map.put("${field.propertyName}", ${field.propertyName});
+#end
+#end
+		return ${instanceName}Service.find${complexClassName}Result(map);
 	}
 
-	@RequestMapping("/delete${complexClassName}/{ids}")
-	@ResponseBody
-	public Integer delete${className}ById(@PathVariable String ids)
-	{
-		${instanceName}Service.delete${complexClassName}(ids);
-		return 1;
-	}
-
-	@RequestMapping("/delete${className}ById/{id}")
-	@ResponseBody
-	public Integer delete${className}ById(@PathVariable Integer id)
+	@DeleteMapping("/${complexResourceName}/{id}")
+	public Result delete${className}ById(@PathVariable Integer id)
 	{
 		${instanceName}Service.delete${className}ById(id);
-		return 1;
+		return Result.SUCCESS;
 	}
 
-	@RequestMapping("/save${className}")
-	@ResponseBody
-	public Integer save${className}(${className} ${instanceName})
+	@PutMapping("/${complexResourceName}")
+	public Result save${className}(${className} ${instanceName})
 	{
 		${instanceName}Service.save${className}(${instanceName});
-		return 1;
+		return Result.SUCCESS;
 	}
 
 }
