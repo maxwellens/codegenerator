@@ -7,11 +7,13 @@
 * generator-config.properties：运行环境配置文件
 
 ## 注释参数
-* 注释 -E枚举参数 -S搜索参数  
+* 注释 -E枚举参数(enumeration)s -S搜索参数(searchable) -I忽略字段(ignore)
 * 举例：状态 -E1:启用,2:禁用 -S  
 * 含义：字段含义为“状态”,1代表启用2代表禁用并且该字段会出现在搜索栏中
 
 ## 更新历史
+### 2019-04-22
+1. -I参数(ignore)：忽略字段，不参与自动生成
 ### 2019-04-15
 1. 抽取CodeStyle工具方法到StringUtils工具类中
 1. Field支持枚举类型

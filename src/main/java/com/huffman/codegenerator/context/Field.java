@@ -83,6 +83,10 @@ public class Field
      */
     private boolean searchable;
     /**
+     * 是否忽略该字段
+     */
+    private boolean ignore;
+    /**
      * 枚举键值对
      */
     private Map<String, String> enumMap = new LinkedHashMap<>();
@@ -128,6 +132,10 @@ public class Field
                 if (option.startsWith("-S"))
                 {
                     searchable = true;
+                }
+                if (option.startsWith("-I"))
+                {
+                    ignore = true;
                 }
             }
         }

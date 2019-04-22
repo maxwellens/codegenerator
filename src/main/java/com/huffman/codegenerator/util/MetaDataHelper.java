@@ -121,7 +121,10 @@ public class MetaDataHelper
                 field.setAutoIncrement(true);
             }
             field.determineHtmlType();
-            fields.add(field);
+            if (!field.isIgnore())
+            {
+                fields.add(field);
+            }
         }
         return fields;
     }
