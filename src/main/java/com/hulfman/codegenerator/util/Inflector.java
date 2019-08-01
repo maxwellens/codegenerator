@@ -1,4 +1,4 @@
-package com.huffman.codegenerator.util;
+package com.hulfman.codegenerator.util;
 
 import java.util.ArrayList;
 import java.util.List;

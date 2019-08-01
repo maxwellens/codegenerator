@@ -1,8 +1,8 @@
-package com.huffman.codegenerator.generator;
+package com.hulfman.codegenerator.generator;
 
 import com.google.common.base.Strings;
-import com.huffman.codegenerator.context.GeneratorContext;
-import com.huffman.codegenerator.util.FileUtils;
+import com.hulfman.codegenerator.context.GeneratorContext;
+import com.hulfman.codegenerator.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

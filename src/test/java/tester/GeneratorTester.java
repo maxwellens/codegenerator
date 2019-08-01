@@ -1,6 +1,6 @@
 package tester;
 
-import com.huffman.codegenerator.generator.GeneratorRunner;
+import com.hulfman.codegenerator.generator.GeneratorRunner;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

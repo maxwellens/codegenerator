@@ -1,4 +1,4 @@
-package com.huffman.codegenerator.util;
+package com.hulfman.codegenerator.util;
 
 import com.google.common.base.Strings;
 

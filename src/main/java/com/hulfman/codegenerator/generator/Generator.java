@@ -1,6 +1,6 @@
-package com.huffman.codegenerator.generator;
+package com.hulfman.codegenerator.generator;
 
-import com.huffman.codegenerator.context.GeneratorContext;
+import com.hulfman.codegenerator.context.GeneratorContext;
 
 import java.io.IOException;
 
