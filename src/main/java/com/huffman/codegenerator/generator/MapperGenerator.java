@@ -21,7 +21,7 @@ public class MapperGenerator extends BaseGenerator
         StringBuilder proSb = new StringBuilder();
         for (Field field : fields)
         {
-            if(!field.isAutoIncrement())
+            if (!field.isAutoIncrement())
             {
                 colSb.append("`").append(field.getColumnName()).append("`,");
                 proSb.append("#{").append(field.getPropertyName()).append("},");

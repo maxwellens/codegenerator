@@ -9,19 +9,19 @@
     <select id="find${complexClassName}" resultType="${basePackage}.bean.${className}">
         select * from ${tableName}
         <where>
-#foreach($field in $fields)
-#if($field.searchable)
-#if($field.enumeration)
-            <if test="${field.propertyName} != null">
-                and ${field.columnName} = #{${field.propertyName}}
-            </if>
-#else
-            <if test="${field.propertyName} != null">
-                and ${field.columnName} like concat("%",#{${field.propertyName}},"%")
-            </if>
-#end
-#end
-#end
+            #foreach($field in $fields)
+                #if($field.searchable)
+                    #if($field.enumeration)
+                        <if test="${field.propertyName} != null">
+                            and ${field.columnName} = #{${field.propertyName}}
+                        </if>
+                    #else
+                        <if test="${field.propertyName} != null">
+                            and ${field.columnName} like concat("%",#{${field.propertyName}},"%")
+                        </if>
+                    #end
+                #end
+            #end
         </where>
         <if test="start!=null and length!=null">
             limit #{start},#{length}
@@ -31,19 +31,19 @@
     <select id="find${complexClassName}Count" resultType="int">
         select count(1) from ${tableName}
         <where>
-#foreach($field in $fields)
-#if($field.searchable)
-#if($field.enumeration)
-            <if test="${field.propertyName} != null">
-                and ${field.columnName} = #{${field.propertyName}}
-            </if>
-#else
-            <if test="${field.propertyName} != null">
-                and ${field.columnName} like concat("%",#{${field.propertyName}},"%")
-            </if>
-#end
-#end
-#end
+            #foreach($field in $fields)
+                #if($field.searchable)
+                    #if($field.enumeration)
+                        <if test="${field.propertyName} != null">
+                            and ${field.columnName} = #{${field.propertyName}}
+                        </if>
+                    #else
+                        <if test="${field.propertyName} != null">
+                            and ${field.columnName} like concat("%",#{${field.propertyName}},"%")
+                        </if>
+                    #end
+                #end
+            #end
         </where>
     </select>
 
@@ -63,11 +63,11 @@
     <update id="update${className}" parameterType="${basePackage}.bean.${className}">
         update ${tableName}
         <set>
-#foreach($field in $fields)
-#if(!$field.autoIncrement)
-            `${field.columnName}` = #{${field.propertyName}},
-#end
-#end
+            #foreach($field in $fields)
+                #if(!$field.autoIncrement)
+                    `${field.columnName}` = #{${field.propertyName}},
+                #end
+            #end
         </set>
         where id = #{id}
     </update>

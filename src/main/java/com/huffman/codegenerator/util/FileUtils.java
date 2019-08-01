@@ -51,7 +51,7 @@ public class FileUtils
         {
             fileName = context.getProjectPath() + fileName;
         }
-        fileName = fileName.replace("{{packagePath}}",context.getBasePackage().replace(".","/"));
+        fileName = fileName.replace("{{packagePath}}", context.getBasePackage().replace(".", "/"));
         fileName = fileName.replace("{{className}}", context.getClassName());
         fileName = fileName.replace("{{resourceName}}", context.getResourceName());
         return fileName;

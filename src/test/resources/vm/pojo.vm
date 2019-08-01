@@ -9,45 +9,45 @@ import ${imp};
 #end
 
 /**
- * ${tableComment}
- *
- * @Author: ${author}
- */
+* ${tableComment}
+*
+* @Author: ${author}
+*/
 @Data
 public class ${className}
 {
 #foreach($field in $fields)
-    /**
-     * ${field.comment}
-     */
-#if($field.columnType == 91)
+/**
+* ${field.comment}
+*/
+    #if($field.columnType == 91)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
-#end
-#if($field.columnType == 93)
+    #end
+    #if($field.columnType == 93)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-#end
-    private ${field.propertyType} ${field.propertyName};
+    #end
+private ${field.propertyType} ${field.propertyName};
 
-#if($field.enumeration)
+    #if($field.enumeration)
     /**
-     * ${field.comment}显示值
-     */
+    * ${field.comment}显示值
+    */
     public String get${field.upperPropertyName}Text()
     {
-        if (${field.propertyName} == null)
-        {
-            return "";
-        }
-#foreach($item in $field.enumMap.entrySet())
+    if (${field.propertyName} == null)
+    {
+    return "";
+    }
+        #foreach($item in $field.enumMap.entrySet())
         if (${field.propertyName} == ${item.key})
         {
-            return "${item.value}";
+        return "${item.value}";
         }
-#end
-        return "";
+        #end
+    return "";
     }
-#end
+    #end
 #end
 }

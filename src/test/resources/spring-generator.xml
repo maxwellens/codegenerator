@@ -7,32 +7,32 @@
         <property name="vmFileName" value="pojo.vm"/>
         <property name="targetFileName" value="sourcePath:{{packagePath}}/bean/{{className}}.java"/>
     </bean>
-<!--
+    <!--
 
-    <bean id="daoGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
-        <property name="vmFileName" value="dao.vm"/>
-        <property name="targetFileName" value="sourcePath:{{packagePath}}/dao/{{className}}Dao.java"/>
-    </bean>
+        <bean id="daoGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
+            <property name="vmFileName" value="dao.vm"/>
+            <property name="targetFileName" value="sourcePath:{{packagePath}}/dao/{{className}}Dao.java"/>
+        </bean>
 
-    <bean id="mapperGenerator" class="com.huffman.codegenerator.generator.MapperGenerator">
-        <property name="vmFileName" value="mapper.vm"/>
-        <property name="targetFileName" value="resourcePath:mapper/{{className}}Mapper.xml"/>
-    </bean>
+        <bean id="mapperGenerator" class="com.huffman.codegenerator.generator.MapperGenerator">
+            <property name="vmFileName" value="mapper.vm"/>
+            <property name="targetFileName" value="resourcePath:mapper/{{className}}Mapper.xml"/>
+        </bean>
 
-    <bean id="serviceGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
-        <property name="vmFileName" value="service.vm"/>
-        <property name="targetFileName" value="sourcePath:{{packagePath}}/service/{{className}}Service.java"/>
-    </bean>
+        <bean id="serviceGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
+            <property name="vmFileName" value="service.vm"/>
+            <property name="targetFileName" value="sourcePath:{{packagePath}}/service/{{className}}Service.java"/>
+        </bean>
 
-    <bean id="controllerGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
-        <property name="vmFileName" value="controller.vm"/>
-        <property name="targetFileName" value="sourcePath:{{packagePath}}/web/{{className}}Controller.java"/>
-    </bean>
+        <bean id="controllerGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
+            <property name="vmFileName" value="controller.vm"/>
+            <property name="targetFileName" value="sourcePath:{{packagePath}}/web/{{className}}Controller.java"/>
+        </bean>
 
-    <bean id="htmlGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
-        <property name="vmFileName" value="html.vm"/>
-        <property name="targetFileName" value="resourcePath:static/{{resourceName}}.html"/>
-    </bean>
--->
+        <bean id="htmlGenerator" class="com.huffman.codegenerator.generator.BaseGenerator">
+            <property name="vmFileName" value="html.vm"/>
+            <property name="targetFileName" value="resourcePath:static/{{resourceName}}.html"/>
+        </bean>
+    -->
 
 </beans>

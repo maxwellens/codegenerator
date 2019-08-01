@@ -10,62 +10,65 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author: ${author}
- */
+* @Author: ${author}
+*/
 @Service
 public class ${className}Service
 {
-    @Autowired
-    private ${className}Dao ${instanceName}Dao;
+@Autowired
+private ${className}Dao ${instanceName}Dao;
 
-    public List<${className}> find${complexClassName}(Map<String, Object> map)
-    {
-        return ${instanceName}Dao.find${complexClassName}(map);
-    }
+public List<${className}> find${complexClassName}(Map
+<String, Object> map)
+{
+return ${instanceName}Dao.find${complexClassName}(map);
+}
 
-    public Integer find${complexClassName}Count(Map<String, Object> map)
-    {
-        return ${instanceName}Dao.find${complexClassName}Count(map);
-    }
+public Integer find${complexClassName}Count(Map
+<String, Object> map)
+{
+return ${instanceName}Dao.find${complexClassName}Count(map);
+}
 
-    public Result find${complexClassName}Result(Map<String, Object> map)
-    {
-        Integer page = (Integer) map.get("page");
-        Integer limit = (Integer) map.get("limit");
-        if (page != null && limit != null)
-        {
-            map.put("start", (page - 1) * limit);
-            map.put("length", limit);
-        }
-        int count = ${instanceName}Dao.find${complexClassName}Count(map);
-        List<${className}> data = ${instanceName}Dao.find${complexClassName}(map);
-        return new Result(data, count);
-    }
+public Result find${complexClassName}Result(Map
+<String, Object> map)
+{
+Integer page = (Integer) map.get("page");
+Integer limit = (Integer) map.get("limit");
+if (page != null && limit != null)
+{
+map.put("start", (page - 1) * limit);
+map.put("length", limit);
+}
+int count = ${instanceName}Dao.find${complexClassName}Count(map);
+List<${className}> data = ${instanceName}Dao.find${complexClassName}(map);
+return new Result(data, count);
+}
 
-    public ${className} find${className}ById(Integer id)
-    {
-        return ${instanceName}Dao.find${className}ById(id);
-    }
+public ${className} find${className}ById(Integer id)
+{
+return ${instanceName}Dao.find${className}ById(id);
+}
 
-    public void save${className}(${className} ${instanceName})
-    {
-        if (${instanceName}.getId() != null && ${instanceName}.getId() != 0)
-        {
-            ${instanceName}Dao.update${className}(${instanceName});
-        } else
-        {
-            ${instanceName}Dao.insert${className}(${instanceName});
-        }
-    }
+public void save${className}(${className} ${instanceName})
+{
+if (${instanceName}.getId() != null && ${instanceName}.getId() != 0)
+{
+${instanceName}Dao.update${className}(${instanceName});
+} else
+{
+${instanceName}Dao.insert${className}(${instanceName});
+}
+}
 
-    public void delete${className}ById(Integer id)
-    {
-        ${instanceName}Dao.delete${className}ById(id);
-    }
+public void delete${className}ById(Integer id)
+{
+${instanceName}Dao.delete${className}ById(id);
+}
 
-    public void delete${complexClassName}(String ids)
-    {
-        ${instanceName}Dao.delete${complexClassName}(ids);
-    }
+public void delete${complexClassName}(String ids)
+{
+${instanceName}Dao.delete${complexClassName}(ids);
+}
 
 }

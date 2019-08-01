@@ -10,52 +10,53 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author: ${author}
- */
+* @Author: ${author}
+*/
 @RestController
 public class ${className}Controller
 {
-	@Autowired
-	private ${className}Service ${instanceName}Service;
+@Autowired
+private ${className}Service ${instanceName}Service;
 
-	@GetMapping("/${complexResourceName}/{id}")
-	public ${className} find${className}ById(@PathVariable int id)
-	{
-		return ${instanceName}Service.find${className}ById(id);
-	}
+@GetMapping("/${complexResourceName}/{id}")
+public ${className} find${className}ById(@PathVariable int id)
+{
+return ${instanceName}Service.find${className}ById(id);
+}
 
-	@GetMapping("/${complexResourceName}")
-	public Result find${complexClassName}(Integer page, Integer limit,
+@GetMapping("/${complexResourceName}")
+public Result find${complexClassName}(Integer page, Integer limit,
 #foreach($field in $fields)
-#if($field.searchable)
-        @RequestParam(required = false) ${field.propertyType} ${field.propertyName}#if($foreach.hasNext),#end
+    #if($field.searchable)
+    @RequestParam(required = false) ${field.propertyType} ${field.propertyName}#if($foreach.hasNext),#end
 
-#end
+    #end
 #end    )
-	{
-		Map<String, Object> map = new HashMap<>();
-		map.put("page", page);
-		map.put("limit", limit);
+{
+Map
+<String, Object> map = new HashMap<>();
+map.put("page", page);
+map.put("limit", limit);
 #foreach($field in $fields)
-#if($field.searchable)
-        map.put("${field.propertyName}", ${field.propertyName});
+    #if($field.searchable)
+    map.put("${field.propertyName}", ${field.propertyName});
+    #end
 #end
-#end
-		return ${instanceName}Service.find${complexClassName}Result(map);
-	}
+return ${instanceName}Service.find${complexClassName}Result(map);
+}
 
-	@DeleteMapping("/${complexResourceName}/{id}")
-	public Result delete${className}ById(@PathVariable Integer id)
-	{
-		${instanceName}Service.delete${className}ById(id);
-		return Result.SUCCESS;
-	}
+@DeleteMapping("/${complexResourceName}/{id}")
+public Result delete${className}ById(@PathVariable Integer id)
+{
+${instanceName}Service.delete${className}ById(id);
+return Result.SUCCESS;
+}
 
-	@PutMapping("/${complexResourceName}")
-	public Result save${className}(${className} ${instanceName})
-	{
-		${instanceName}Service.save${className}(${instanceName});
-		return Result.SUCCESS;
-	}
+@PutMapping("/${complexResourceName}")
+public Result save${className}(${className} ${instanceName})
+{
+${instanceName}Service.save${className}(${instanceName});
+return Result.SUCCESS;
+}
 
 }
