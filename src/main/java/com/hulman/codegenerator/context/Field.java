@@ -1,6 +1,6 @@
-package com.hulfman.codegenerator.context;
+package com.hulman.codegenerator.context;
 
-import com.hulfman.codegenerator.util.StringUtils;
+import com.hulman.codegenerator.util.StringUtils;
 import lombok.Data;
 
 import java.util.Arrays;

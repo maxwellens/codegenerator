@@ -1,7 +1,7 @@
-package com.hulfman.codegenerator.util;
+package com.hulman.codegenerator.util;
 
 import com.google.common.base.Strings;
-import com.hulfman.codegenerator.context.Field;
+import com.hulman.codegenerator.context.Field;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
-package com.hulfman.codegenerator.context;
+package com.hulman.codegenerator.context;
 
 import com.google.common.base.Strings;
-import com.hulfman.codegenerator.util.CodeStyle;
-import com.hulfman.codegenerator.util.MetaDataHelper;
+import com.hulman.codegenerator.util.CodeStyle;
+import com.hulman.codegenerator.util.MetaDataHelper;
 import lombok.Data;
 
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
-package com.hulfman.codegenerator.util;
+package com.hulman.codegenerator.util;
 
-import com.hulfman.codegenerator.context.GeneratorContext;
+import com.hulman.codegenerator.context.GeneratorContext;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
