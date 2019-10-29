@@ -22,9 +22,7 @@ public class CodeStyle
         //包含分隔符，全部转成空格分割
         if (containsSeperator(string))
         {
-            string =
-                    string.replace(UNDER_SCORE, SPACE).replace(UNDER_SCORE, SPACE).replace(DASH, SPACE).replace(SLASH
-                            , SPACE).replace(BACK_SLASH, SPACE).replace(DOT, SPACE).replace(SLASH, SPACE).replace(VERTICAL, SPACE);
+            string = string.replace(UNDER_SCORE, SPACE).replace(UNDER_SCORE, SPACE).replace(DASH, SPACE).replace(SLASH, SPACE).replace(BACK_SLASH, SPACE).replace(DOT, SPACE).replace(SLASH, SPACE).replace(VERTICAL, SPACE);
 
         } else
         {
@@ -35,7 +33,7 @@ public class CodeStyle
                 char c = string.charAt(i);
                 if (StringUtils.isUpperCase(c))
                 {
-                    string = string.replace(c + "", SPACE + c);
+                    string = string.replaceFirst(c + "", SPACE + c);
                     i++;
                 }
             }
